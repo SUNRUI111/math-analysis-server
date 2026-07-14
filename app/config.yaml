@@ -1,0 +1,10 @@
+# ==========================================
+# 大模型 API 密钥配置 
+# ==========================================
+
+llm:
+  deepseek_url: "https://api.deepseek.com/v1"
+  deepseek_api_key: "sk-5ca4edd88cf74fd5909decc28efd09ef"
+  deepseek_model: "deepseek-v4-flash"
+  siliconflow_url: "https://api.siliconflow.cn/v1"
+  siliconflow_api_key: "sk-wwlhtmoljxgqplqfowsrchbygihvkcggtotclhehxrltouij"

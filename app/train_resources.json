@@ -1,0 +1,358 @@
+{
+  "RES_NUM_FRACTION_VISUAL": {
+    "resource_type": "3d_sandbox",
+    "ai_guide_text": "探索分数在数轴上的位置。调节分母 n，观察每一个 1/n 的长度如何随之变化；调节分子 k，观察分数在数轴上如何移动。",
+    "shape_parameters": {
+        "rectangle": {
+        "sliders": [
+            { "param": "n", "label": "分母 (等分数)", "min": 2, "max": 10, "default": 4 },
+            { "param": "k", "label": "分子 (份数)", "min": 0, "max": 10, "default": 1 }
+        ]
+        }
+    }
+    },
+
+  "RES_NUM_RATIO_BALANCE": {
+    "resource_type": "3d_sandbox",
+    "ai_guide_text": "探究线性方程 y = kx + b 的几何意义。调节斜率 k，观察直线的陡峭程度；调节截距 b，观察直线的上下平移。",
+    "shape_parameters": {
+        "cube": {
+        "sliders": [
+            { "param": "k", "label": "斜率 (k)", "min": -3, "max": 3, "default": 1 },
+            { "param": "b", "label": "截距 (b)", "min": -5, "max": 5, "default": 0 }
+        ]
+        }
+    }
+    },
+
+  "RES_GEO_BASE_PERCEIVE": {
+    "resource_type": "3d_sandbox",
+    "ai_guide_text": "",
+    "sandbox_config": {
+      "available_shapes": ["rectangle", "cube", "circle", "sphere", "cylinder", "cone"],
+      "default_shape": "rectangle"
+    },
+    "shape_parameters": {
+      "rectangle": {
+        "sliders": [
+          {"param": "w", "label": "长度 (l)", "min": 1, "max": 5, "default": 3},
+          {"param": "h", "label": "宽度 (w)", "min": 1, "max": 5, "default": 2}
+        ],
+        "formulas": {
+          "perimeter": "C = 2 * (l + w)",
+          "area": "S = l * w"
+        }
+      },
+      "cube": {
+        "sliders": [
+          {"param": "w", "label": "长度 (l)", "min": 1, "max": 5, "default": 3},
+          {"param": "h", "label": "宽度 (w)", "min": 1, "max": 5, "default": 2},
+          {"param": "d", "label": "高度 (h)", "min": 1, "max": 5, "default": 2}
+        ],
+        "formulas": {
+          "surface_area": "S = 2 * (l*w + w*h + l*h)",
+          "volume": "V = l * w * h"
+        }
+      },
+      "circle": {
+        "sliders": [
+          {"param": "r", "label": "半径 (r)", "min": 1, "max": 4, "default": 2},
+          {"param": "a", "label": "角度 (a)", "min": 0, "max": 360, "default": 360}
+        ],
+        "formulas": {
+          "perimeter": "C = (a/360) * 2πr + 2r",
+          "area": "S = (a/360) * π * r²"
+        }
+      },
+      "sphere": {
+        "sliders": [
+          {"param": "r", "label": "半径 (r)", "min": 1, "max": 4, "default": 2}
+        ],
+        "formulas": {
+          "surface_area": "S = 4 * π * r²",
+          "volume": "V = 4/3 * π * r³"
+        }
+      },
+      "cylinder": {
+        "sliders": [
+          {"param": "r", "label": "底面半径 (r)", "min": 1, "max": 4, "default": 2},
+          {"param": "h", "label": "高度 (h)", "min": 1, "max": 6, "default": 4}
+        ],
+        "formulas": {
+          "surface_area": "S = 2πr² + 2πrh",
+          "volume": "V = π * r² * h"
+        }
+      },
+      "cone": {
+        "sliders": [
+          {"param": "r", "label": "底面半径 (r)", "min": 1, "max": 4, "default": 2},
+          {"param": "h", "label": "高度 (h)", "min": 1, "max": 6, "default": 4}
+        ],
+        "formulas": {
+          "surface_area": "S = πr² + πrl (其中母线 l = sqrt(r² + h²))",
+          "volume": "V = 1/3 * π * r² * h"
+        }
+      }
+    }
+  },
+  
+  "RES_GEO_COMPREHENSIVE_QUIZ": {
+    "resource_type": "3d_interactive_quiz",
+    "is_multi_question": true,
+    "questions": [
+      {
+        "id": "q1",
+        "ai_guide_text": "【第一题：城堡瞭望塔】挑战开始！这里有一个由长方体基座和圆柱形塔楼组成的复合建筑模型。请发挥你的空间想象力，解决下面的实际问题：",
+        "three_config": {
+          "scene_type": "composite_building",
+          "components": [
+            {"type": "box", "size": [6, 4, 3], "position": [0, 1.5, 0], "color": "#a0aec0"},
+            {"type": "cylinder", "size": [1.5, 1.5, 5], "position": [0, 5.5, 0], "color": "#ed8936"}
+          ]
+        },
+        "quiz_data": {
+          "question_text": "我们要给这个建筑的外表面刷上蓝色油漆（与地面接触的底面不刷）。已知长方体基座长6米、宽4米、高3米；圆柱塔楼底面半径1.5米、高5米。求需要粉刷的总面积是多少平方米？（π取3.14，结果保留整数）",
+          "options": [
+            {"key": "A", "text": "123 平方米"},
+            {"key": "B", "text": "144 平方米"},
+            {"key": "C", "text": "131 平方米"}
+          ],
+          "correct_answer": "C",
+          "analysis": "解题思路：总面积 = 长方体表面积(扣除底面及与圆柱重合面) + 圆柱侧面积 + 圆柱顶面积。通过 3D 旋转观察可以更清楚地看到被隐藏和重叠的部分。"
+        }
+      },
+      {
+        "id": "q2",
+        "ai_guide_text": "【第二题：方圆石柱工件】接下来观察一个工业组合工件。一个底面边长为4分米、高6分米的正方体石柱，正中心从上到下被掏空出了一个半径为1分米的圆柱形通孔。",
+        "three_config": {
+          "scene_type": "hollow_pillar",
+          "components": [
+            {"type": "box", "size": [4, 6, 4], "position": [0, 3, 0], "color": "#cbd5e1"},
+            {"type": "cylinder", "size": [1, 1, 6.1], "position": [0, 3, 0], "color": "#f8fafc"}
+          ]
+        },
+        "quiz_data": {
+          "question_text": "请问这个被掏空后的石柱工件，其剩余部分的总体积是多少立方分米？（π取3.14）",
+          "options": [
+            {"key": "A", "text": "77.16 立方分米"},
+            {"key": "B", "text": "96.00 立方分米"},
+            {"key": "C", "text": "58.32 立方分米"}
+          ],
+          "correct_answer": "A",
+          "analysis": "解题思路：剩余体积 = 外围长方体体积 - 内部圆柱通孔体积。长方体体积 = 4 × 4 × 6 = 96；圆柱体积 = 3.14 × 1² × 6 = 18.84。两者相减：96 - 18.84 = 77.16。"
+        }
+      },
+      {
+        "id": "q3",
+        "ai_guide_text": "【第三题：双层生日蛋糕】这是一个双层蛋糕模型。下层是一个半径为3分米、高2分米的圆柱；上层是一个半径为2分米、高2分米的圆柱，它们轴心重合重叠在一起。",
+        "three_config": {
+          "scene_type": "double_cake",
+          "components": [
+            {"type": "cylinder", "size": [3, 3, 2], "position": [0, 1, 0], "color": "#fbcfe8"},
+            {"type": "cylinder", "size": [2, 2, 2], "position": [0, 3, 0], "color": "#fde047"}
+          ]
+        },
+        "quiz_data": {
+          "question_text": "现在需要给这个双层蛋糕的外露表面（不含最底下与桌面接触的面）涂满一层奶油，请问需要涂奶油的面积是多少平方分米？（π取3.14）",
+          "options": [
+            {"key": "A", "text": "62.80 平方分米"},
+            {"key": "B", "text": "91.06 平方分米"},
+            {"key": "C", "text": "78.50 平方分米"}
+          ],
+          "correct_answer": "B",
+          "analysis": "解题思路：外露表面积 = 下层圆柱侧面积 + 上层圆柱侧面积 + 下层顶面外露环形面积 + 上层顶面面积。其实通过空间转化，所有顶层和外露环形的面积之和，正好等于“最下层圆柱的顶面积”。因此：总奶油面积 = 2×3.14×3×2 (下侧面) + 2×3.14×2×2 (上侧面) + 3.14×3² (最大底面影投) = 37.68 + 25.12 + 28.26 = 91.06。"
+        }
+      },
+      {
+        "id": "q4",
+        "ai_guide_text": "【第四题：沙漏与沙堆】将一个半径为3厘米、高6厘米的圆锥形沙漏容器装满沙子，然后全部漏到平整的地面上，形成了一个完美的圆锥形沙堆，已知沙堆的高度为2厘米。",
+        "three_config": {
+          "scene_type": "cone_to_cone",
+          "components": [
+            {"type": "cone", "size": [3, 6], "position": [0, 3, 0], "color": "#fef08a"},
+            {"type": "cone", "size": [5.2, 2], "position": [0, -2, 0], "color": "#ca8a04"}
+          ]
+        },
+        "quiz_data": {
+          "question_text": "假设沙子在倾倒过程中总体积没有发生改变，请问落到地面上的圆锥形沙堆，其占地的底面半径是多少厘米？",
+          "options": [
+            {"key": "A", "text": "3 厘米"},
+            {"key": "B", "text": "4.5 厘米"},
+            {"key": "C", "text": "3√3 (约5.2) 厘米"}
+          ],
+          "correct_answer": "C",
+          "analysis": "解题思路：两个圆锥的体积相等。沙漏体积 = 1/3 × π × 3² × 6 = 18π。落地后的沙堆体积公式为 1/3 × π × R² × 2 = 18π，化简得 R² = 27，因此底面半径 R = √27 = 3√3 ≈ 5.2 厘米。"
+        }
+      },
+      {
+        "id": "q5",
+        "ai_guide_text": "【第五题：胶囊储气罐】最后进入高阶工业立体设计。某工厂的钢制储气罐形状是由一个长为6米、底面半径为2米的圆柱体身段，在其左右两端各焊接上一个半径同为2米的半球体封头组合而成。",
+        "three_config": {
+          "scene_type": "capsule_tank",
+          "components": [
+            {"type": "cylinder", "size": [2, 2, 6], "position": [0, 0, 0], "color": "#94a3b8"},
+            {"type": "sphere", "size": [2], "position": [0, 3, 0], "color": "#64748b"},
+            {"type": "sphere", "size": [2], "position": [0, -3, 0], "color": "#64748b"}
+          ]
+        },
+        "quiz_data": {
+          "question_text": "为了评估储气能力，工程师需要计算这个储气罐的整体容积。请问该胶囊储气罐的总体积是多少立方米？（π取3.14）",
+          "options": [
+            {"key": "A", "text": "108.82 立方米"},
+            {"key": "B", "text": "75.36 立方米"},
+            {"key": "C", "text": "33.49 立方米"}
+          ],
+          "correct_answer": "A",
+          "analysis": "解题思路：总体积 = 中间圆柱体体积 + 左右两个半球体体积（合并为一个完整的球体）。圆柱体积 = 3.14 × 2² × 6 = 75.36；完整球体体积 = 4/3 × 3.14 × 2³ = 33.493。总体积 = 75.36 + 33.493 = 108.85（取最接近选项 A）。"
+        }
+      }
+    ]
+  },
+
+  "RES_APP_WATER_FLOW": {
+    "resource_type": "3d_interactive_quiz",
+    "ai_guide_text": "工程与流水问题可视化。旋转观察水槽与水流的速度动态变化，解答以下经典注水应用题：",
+    "quizzes_pool": [
+      {
+        "question_text": "一个长方体水蓄水池，长4米，宽3米，深2米。进水管每小时注水 3 立方米，出水管每小时放水 1 立方米。若两管同时打开，注满这个原本全空的水池需要多少小时？",
+        "options": [
+          { "key": "A", "text": "8 小时" },
+          { "key": "B", "text": "12 小时" },
+          { "key": "C", "text": "24 小时" }
+        ],
+        "correct_answer": "B",
+        "analysis": "水池总容积 = 4 × 3 × 2 = 24 立方米。净进水速度 = 3 - 1 = 2 立方米/小时。需要时间 = 24 ÷ 2 = 12 小时。"
+      }
+    ],
+    "three_config": {
+      "scene_type": "water_tank",
+      "components": [
+        { "type": "box", "size": [4, 2.5, 3], "position": [0, 0, 0], "color": "#60a5fa" }
+      ]
+    }
+  },
+
+  "RES_APP_LINE_SCENE": {
+    "resource_type": "3d_interactive_quiz",
+    "ai_guide_text": "行程与相遇线段模型。模拟甲乙两车在三维跑道上的相对运动，解答速度、时间与距离的关系：",
+    "quizzes_pool": [
+      {
+        "question_text": "甲、乙两车同时从相距 300 千米的两地相对开出，甲车每小时行 60 千米，乙车每小时行 40 千米。请问两车出发后几小时相遇？",
+        "options": [
+          { "key": "A", "text": "3 小时" },
+          { "key": "B", "text": "4 小时" },
+          { "key": "C", "text": "5 小时" }
+        ],
+        "correct_answer": "A",
+        "analysis": "相遇时间 = 总路程 ÷ 速度和。即 300 ÷ (60 + 40) = 300 ÷ 100 = 3 小时。"
+      }
+    ],
+    "three_config": {
+      "scene_type": "road_line",
+      "components": [
+        { "type": "box", "size": [5, 0.2, 0.5], "position": [0, -1, 0], "color": "#94a3b8" },
+        { "type": "box", "size": [0.4, 0.4, 0.4], "position": [-2.2, -0.7, 0], "color": "#ef4444" },
+        { "type": "box", "size": [0.4, 0.4, 0.4], "position": [2.2, -0.7, 0], "color": "#3b82f6" }
+      ]
+    }
+  },
+
+  "RES_LOG_BOX_DROP": {
+    "resource_type": "3d_interactive_quiz",
+    "ai_guide_text": "抽屉原理（鸽巢原理）空间推演。通过观察苹果放入抽屉的极端分布，寻找逻辑上的“必然性”：",
+    "quizzes_pool": [
+      {
+        "question_text": "将 13 个三维彩色几何球随机放入 4 个完全相同的透明抽屉中。无论怎样放置，至少有一个抽屉里至少有多少个几何球？",
+        "options": [
+          { "key": "A", "text": "3 个" },
+          { "key": "B", "text": "4 个" },
+          { "key": "C", "text": "5 个" }
+        ],
+        "correct_answer": "B",
+        "analysis": "根据抽屉原理：13 ÷ 4 = 3 ... 1。余数是 1，说明即使平均分配后还多出 1 个，放到任意抽屉都会使其数量达到 3 + 1 = 4 个。"
+      }
+    ],
+    "three_config": {
+      "scene_type": "drawer_boxes",
+      "components": [
+        { "type": "box", "size": [1.2, 1.2, 1.2], "position": [-1.5, 0, 0], "color": "#cbd5e1" },
+        { "type": "box", "size": [1.2, 1.2, 1.2], "position": [0, 0, 0], "color": "#cbd5e1" },
+        { "type": "box", "size": [1.2, 1.2, 1.2], "position": [1.5, 0, 0], "color": "#cbd5e1" }
+      ]
+    }
+  },
+
+  "RES_LOG_MATRIX_ELIMINATE": {
+    "resource_type": "3d_interactive_quiz",
+    "ai_guide_text": "排除法三维逻辑解谜。利用已知的线索排布排除冲突，定位唯一的正确答案：",
+    "quizzes_pool": [
+      {
+        "question_text": "有红、黄、蓝三个不同颜色的宝箱，分别装有金币、银币和铜币。已知：红箱不装金币；黄箱装的不是银币；装有银币的箱子不是红箱。请问蓝箱装的是什么？",
+        "options": [
+          { "key": "A", "text": "金币" },
+          { "key": "B", "text": "银币" },
+          { "key": "C", "text": "铜币" }
+        ],
+        "correct_answer": "B",
+        "analysis": "红箱不装金币和银币，所以红箱必定装铜币。黄箱不装银币，那只能装金币。剩下蓝箱必定装银币。"
+      }
+    ],
+    "three_config": {
+      "scene_type": "treasure_chests",
+      "components": [
+        { "type": "box", "size": [1, 1, 1], "position": [-1.5, 0, 0], "color": "#ef4444" },
+        { "type": "box", "size": [1, 1, 1], "position": [0, 0, 0], "color": "#eab308" },
+        { "type": "box", "size": [1, 1, 1], "position": [1.5, 0, 0], "color": "#3b82f6" }
+      ]
+    }
+  },
+
+  "RES_STAT_DICE_SIM": {
+    "resource_type": "3d_interactive_quiz",
+    "ai_guide_text": "古典概率与几何分布。模拟掷骰子和投硬币的随机空间映射，探究理想概率：",
+    "quizzes_pool": [
+      {
+        "question_text": "同时抛掷两枚质地均匀的普通正六面体骰子，两枚骰子朝上的点数之和等于 7 的概率是多少？",
+        "options": [
+          { "key": "A", "text": "1/6" },
+          { "key": "B", "text": "5/36" },
+          { "key": "C", "text": "1/12" }
+        ],
+        "correct_answer": "A",
+        "analysis": "总组合数 = 6 × 6 = 36 种。和为 7 的组合有 (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) 共 6 种。概率 = 6/36 = 1/6。"
+      }
+    ],
+    "three_config": {
+      "scene_type": "double_dices",
+      "components": [
+        { "type": "box", "size": [1, 1, 1], "position": [-0.8, 0, 0], "color": "#ffffff" },
+        { "type": "box", "size": [1, 1, 1], "position": [0.8, 0, 0], "color": "#ffffff" }
+      ]
+    }
+  },
+
+  "RES_STAT_CHART_DYNAMIC": {
+    "resource_type": "3d_interactive_quiz",
+    "ai_guide_text": "三维条形统计图数据穿透。根据立体图表展现的高度和分布趋势，处理聚合统计信息：",
+    "quizzes_pool": [
+      {
+        "question_text": "某工厂前三季度三维统计图显示的平均产值为 50 万元，第四季度的产值冲高到了 90 万元。请问该工厂全年的季度平均产值是多少万元？",
+        "options": [
+          { "key": "A", "text": "60 万元" },
+          { "key": "B", "text": "70 万元" },
+          { "key": "C", "text": "55 万元" }
+        ],
+        "correct_answer": "A",
+        "analysis": "前三季度总产值 = 50 × 3 = 150 万元。全年总产值 = 150 + 90 = 240 万元。全年季度平均 = 240 ÷ 4 = 60 万元。"
+      }
+    ],
+    "three_config": {
+      "scene_type": "bar_charts",
+      "components": [
+        { "type": "box", "size": [0.6, 2, 0.6], "position": [-1.2, -0.5, 0], "color": "#10b981" },
+        { "type": "box", "size": [0.6, 3.5, 0.6], "position": [0, 0.25, 0], "color": "#3b82f6" },
+        { "type": "box", "size": [0.6, 5, 0.6], "position": [1.2, 1, 0], "color": "#f59e0b" }
+      ]
+    }
+  }
+}
