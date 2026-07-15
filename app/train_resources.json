@@ -14,16 +14,21 @@
 
   "RES_NUM_RATIO_BALANCE": {
     "resource_type": "3d_sandbox",
-    "ai_guide_text": "探究线性方程 y = kx + b 的几何意义。调节斜率 k，观察直线的陡峭程度；调节截距 b，观察直线的上下平移。",
-    "shape_parameters": {
-        "cube": {
-        "sliders": [
-            { "param": "k", "label": "斜率 (k)", "min": -3, "max": 3, "default": 1 },
-            { "param": "b", "label": "截距 (b)", "min": -5, "max": 5, "default": 0 }
-        ]
-        }
-    }
+    "ai_guide_text": "在三维坐标系中观察线性方程 y = kx + b 的变化。调节斜率 k 和截距 b，实时观察直线在平面上的动态旋转与平移。",
+    "three_config": {
+      "scene_type": "coordinate_system",
+      "show_grid": true,
+      "axis_range": [-5, 5]
     },
+    "shape_parameters": {
+      "line": {
+        "sliders": [
+          { "param": "k", "label": "斜率 (k)", "min": -3, "max": 3, "default": 1 },
+          { "param": "b", "label": "截距 (b)", "min": -5, "max": 5, "default": 0 }
+        ]
+      }
+    }
+  },
 
   "RES_GEO_BASE_PERCEIVE": {
     "resource_type": "3d_sandbox",
@@ -211,25 +216,73 @@
 
   "RES_APP_WATER_FLOW": {
     "resource_type": "3d_interactive_quiz",
-    "ai_guide_text": "工程与流水问题可视化。旋转观察水槽与水流的速度动态变化，解答以下经典注水应用题：",
+    "ai_guide_text": "观察注水与排水的动态过程。蓝色管道为进水，红色管道为出水，旋转视角观察水位的升降变化。",
+    "three_config": {
+      "scene_type": "water_tank_system",
+      "components": [
+        { "type": "box", "size": [4, 2.5, 3], "position": [0, 0, 0], "color": "#60a5fa", "opacity": 0.4 },
+        { 
+          "type": "cylinder", 
+          "size": [0.2, 0.2, 1.5], 
+          "position": [-1.8, 1.2, 0], 
+          "rotation": [0, 0, 45], 
+          "color": "#3b82f6", 
+          "label": "进水管",
+          "animation": {
+            "type": "water_flow",
+            "direction": "in",
+            "speed": 0.02,
+            "particleCount": 8
+          }
+        },
+        { 
+          "type": "cylinder", 
+          "size": [0.2, 0.2, 1.5], 
+          "position": [1.8, -0.8, 0], 
+          "rotation": [0, 0, -45], 
+          "color": "#ef4444", 
+          "label": "出水管",
+          "animation": {
+            "type": "water_flow",
+            "direction": "out",
+            "speed": 0.015,
+            "particleCount": 6
+          }
+        },
+        { 
+          "type": "box", 
+          "size": [3.6, 0.1, 2.6], 
+          "position": [0, -1.2, 0], 
+          "color": "#1e40af", 
+          "opacity": 0.3,
+          "label": "水面",
+          "animation": {
+            "type": "water_level",
+            "minY": -1.2,
+            "maxY": 1.0,
+            "speed": 0.005,
+            "loop": true,
+            "pingPong": true
+          }
+        }
+      ],
+      "animation_config": {
+        "flow_effect": true,
+        "water_level_change": "dynamic"
+      }
+    },
     "quizzes_pool": [
       {
-        "question_text": "一个长方体水蓄水池，长4米，宽3米，深2米。进水管每小时注水 3 立方米，出水管每小时放水 1 立方米。若两管同时打开，注满这个原本全空的水池需要多少小时？",
+        "question_text": "水池长4米，宽3米，深2米。进水管每小时注水3立方米，出水管每小时放水1立方米。同时打开，注满水池需几小时？",
         "options": [
           { "key": "A", "text": "8 小时" },
           { "key": "B", "text": "12 小时" },
           { "key": "C", "text": "24 小时" }
         ],
         "correct_answer": "B",
-        "analysis": "水池总容积 = 4 × 3 × 2 = 24 立方米。净进水速度 = 3 - 1 = 2 立方米/小时。需要时间 = 24 ÷ 2 = 12 小时。"
+        "analysis": "利用可视化模型观察：净速度=3-1=2；总容积=24；24÷2=12小时。"
       }
-    ],
-    "three_config": {
-      "scene_type": "water_tank",
-      "components": [
-        { "type": "box", "size": [4, 2.5, 3], "position": [0, 0, 0], "color": "#60a5fa" }
-      ]
-    }
+    ]
   },
 
   "RES_APP_LINE_SCENE": {
@@ -251,15 +304,48 @@
       "scene_type": "road_line",
       "components": [
         { "type": "box", "size": [5, 0.2, 0.5], "position": [0, -1, 0], "color": "#94a3b8" },
-        { "type": "box", "size": [0.4, 0.4, 0.4], "position": [-2.2, -0.7, 0], "color": "#ef4444" },
-        { "type": "box", "size": [0.4, 0.4, 0.4], "position": [2.2, -0.7, 0], "color": "#3b82f6" }
-      ]
+        { 
+          "type": "box", 
+          "size": [0.4, 0.4, 0.4], 
+          "position": [-2.2, -0.7, 0], 
+          "color": "#ef4444",
+          "label": "甲车",
+          "animation": {
+            "type": "linear",
+            "startPos": [-2.2, -0.7, 0],
+            "endPos": [0, -0.7, 0],
+            "duration": 6,
+            "loop": true,
+            "pingPong": true
+          }
+        },
+        { 
+          "type": "box", 
+          "size": [0.4, 0.4, 0.4], 
+          "position": [2.2, -0.7, 0], 
+          "color": "#3b82f6",
+          "label": "乙车",
+          "animation": {
+            "type": "linear",
+            "startPos": [2.2, -0.7, 0],
+            "endPos": [0, -0.7, 0],
+            "duration": 6,
+            "loop": true,
+            "pingPong": true
+          }
+        }
+      ],
+      "animation_config": {
+        "enabled": true,
+        "autoPlay": true,
+        "type": "car_meeting"
+      }
     }
   },
 
   "RES_LOG_BOX_DROP": {
     "resource_type": "3d_interactive_quiz",
-    "ai_guide_text": "抽屉原理（鸽巢原理）空间推演。通过观察苹果放入抽屉的极端分布，寻找逻辑上的“必然性”：",
+    "ai_guide_text": "抽屉原理（鸽巢原理）空间推演。通过观察13个彩色小球放入4个透明抽屉的分布，寻找逻辑上的必然性：",
     "quizzes_pool": [
       {
         "question_text": "将 13 个三维彩色几何球随机放入 4 个完全相同的透明抽屉中。无论怎样放置，至少有一个抽屉里至少有多少个几何球？",
@@ -274,17 +360,70 @@
     ],
     "three_config": {
       "scene_type": "drawer_boxes",
+      "animation_config": {
+        "enabled": true,
+        "autoPlay": true,
+        "type": "drawer_distribution",
+        "totalBalls": 13,
+        "drawerCount": 4,
+        "ballColors": ["#ef4444", "#3b82f6", "#f59e0b", "#10b981", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316", "#6366f1", "#22d3ee", "#f472b6", "#84cc16", "#a855f7"]
+      },
       "components": [
-        { "type": "box", "size": [1.2, 1.2, 1.2], "position": [-1.5, 0, 0], "color": "#cbd5e1" },
-        { "type": "box", "size": [1.2, 1.2, 1.2], "position": [0, 0, 0], "color": "#cbd5e1" },
-        { "type": "box", "size": [1.2, 1.2, 1.2], "position": [1.5, 0, 0], "color": "#cbd5e1" }
+        { 
+          "type": "box", 
+          "size": [1.5, 1.0, 1.5], 
+          "position": [-2.5, -0.5, 0], 
+          "color": "#cbd5e1",
+          "opacity": 0.25,
+          "label": "抽屉1",
+          "animation": {
+            "type": "drawer_highlight",
+            "drawerIndex": 0
+          }
+        },
+        { 
+          "type": "box", 
+          "size": [1.5, 1.0, 1.5], 
+          "position": [-0.83, -0.5, 0], 
+          "color": "#cbd5e1",
+          "opacity": 0.25,
+          "label": "抽屉2",
+          "animation": {
+            "type": "drawer_highlight",
+            "drawerIndex": 1
+          }
+        },
+        { 
+          "type": "box", 
+          "size": [1.5, 1.0, 1.5], 
+          "position": [0.83, -0.5, 0], 
+          "color": "#cbd5e1",
+          "opacity": 0.25,
+          "label": "抽屉3",
+          "animation": {
+            "type": "drawer_highlight",
+            "drawerIndex": 2
+          }
+        },
+        { 
+          "type": "box", 
+          "size": [1.5, 1.0, 1.5], 
+          "position": [2.5, -0.5, 0], 
+          "color": "#cbd5e1",
+          "opacity": 0.25,
+          "label": "抽屉4",
+          "animation": {
+            "type": "drawer_highlight",
+            "drawerIndex": 3
+          }
+        }
       ]
     }
   },
 
   "RES_LOG_MATRIX_ELIMINATE": {
     "resource_type": "3d_interactive_quiz",
-    "ai_guide_text": "排除法三维逻辑解谜。利用已知的线索排布排除冲突，定位唯一的正确答案：",
+    "ai_guide_text": "排除法三维逻辑解谜。三个不同颜色的宝箱分别装有金币、银币和铜币，利用已知线索排除冲突，定位唯一的正确答案：",
     "quizzes_pool": [
       {
         "question_text": "有红、黄、蓝三个不同颜色的宝箱，分别装有金币、银币和铜币。已知：红箱不装金币；黄箱装的不是银币；装有银币的箱子不是红箱。请问蓝箱装的是什么？",
@@ -299,10 +438,75 @@
     ],
     "three_config": {
       "scene_type": "treasure_chests",
+      "animation_config": {
+        "enabled": true,
+        "autoPlay": true,
+        "type": "treasure_reveal"
+      },
       "components": [
-        { "type": "box", "size": [1, 1, 1], "position": [-1.5, 0, 0], "color": "#ef4444" },
-        { "type": "box", "size": [1, 1, 1], "position": [0, 0, 0], "color": "#eab308" },
-        { "type": "box", "size": [1, 1, 1], "position": [1.5, 0, 0], "color": "#3b82f6" }
+        { 
+          "type": "chest", 
+          "size": [1.2, 1.0, 1.2], 
+          "position": [-2.2, -0.3, 0], 
+          "color": "#ef4444",
+          "label": "红箱",
+          "lidColor": "#dc2626",
+          "treasure": "铜币",
+          "treasureColor": "#b45309",
+          "animation": {
+            "type": "chest_lid",
+            "openAngle": 60,
+            "speed": 0.5
+          }
+        },
+        { 
+          "type": "chest", 
+          "size": [1.2, 1.0, 1.2], 
+          "position": [0, -0.3, 0], 
+          "color": "#eab308",
+          "label": "黄箱",
+          "lidColor": "#ca8a04",
+          "treasure": "金币",
+          "treasureColor": "#fbbf24",
+          "animation": {
+            "type": "chest_lid",
+            "openAngle": 60,
+            "speed": 0.5
+          }
+        },
+        { 
+          "type": "chest", 
+          "size": [1.2, 1.0, 1.2], 
+          "position": [2.2, -0.3, 0], 
+          "color": "#3b82f6",
+          "label": "蓝箱",
+          "lidColor": "#2563eb",
+          "treasure": "银币",
+          "treasureColor": "#94a3b8",
+          "animation": {
+            "type": "chest_lid",
+            "openAngle": 60,
+            "speed": 0.5
+          }
+        },
+        {
+          "type": "label_3d",
+          "position": [-2.2, 1.2, 0],
+          "text": "🔴 红箱",
+          "color": "#ef4444"
+        },
+        {
+          "type": "label_3d",
+          "position": [0, 1.2, 0],
+          "text": "🟡 黄箱",
+          "color": "#eab308"
+        },
+        {
+          "type": "label_3d",
+          "position": [2.2, 1.2, 0],
+          "text": "🔵 蓝箱",
+          "color": "#3b82f6"
+        }
       ]
     }
   },
@@ -324,9 +528,61 @@
     ],
     "three_config": {
       "scene_type": "double_dices",
+      "animation_config": {
+        "enabled": true,
+        "autoPlay": true,
+        "type": "dice_roll",
+        "rollInterval": 3
+      },
       "components": [
-        { "type": "box", "size": [1, 1, 1], "position": [-0.8, 0, 0], "color": "#ffffff" },
-        { "type": "box", "size": [1, 1, 1], "position": [0.8, 0, 0], "color": "#ffffff" }
+        {
+          "type": "dice",
+          "size": [1.0, 1.0, 1.0],
+          "position": [-1.2, 0, 0],
+          "color": "#ffffff",
+          "label": "骰子1",
+          "faceColor": "#1e293b",
+          "dotColor": "#1e293b",
+          "value": 1,
+          "animation": {
+            "type": "dice_roll",
+            "speed": 0.5,
+            "values": [1, 2, 3, 4, 5, 6]
+          }
+        },
+        {
+          "type": "dice",
+          "size": [1.0, 1.0, 1.0],
+          "position": [1.2, 0, 0],
+          "color": "#ffffff",
+          "label": "骰子2",
+          "faceColor": "#1e293b",
+          "dotColor": "#1e293b",
+          "value": 2,
+          "animation": {
+            "type": "dice_roll",
+            "speed": 0.5,
+            "values": [1, 2, 3, 4, 5, 6]
+          }
+        },
+        {
+          "type": "label_3d",
+          "position": [-1.2, 1.2, 0],
+          "text": "🎲 骰子1",
+          "color": "#1e293b"
+        },
+        {
+          "type": "label_3d",
+          "position": [1.2, 1.2, 0],
+          "text": "🎲 骰子2",
+          "color": "#1e293b"
+        },
+        {
+          "type": "label_3d",
+          "position": [0, -1.0, 0],
+          "text": "点数之和 = ?",
+          "color": "#3b82f6"
+        }
       ]
     }
   },
@@ -348,10 +604,99 @@
     ],
     "three_config": {
       "scene_type": "bar_charts",
+      "animation_config": {
+        "enabled": true,
+        "autoPlay": true,
+        "type": "chart_grow"
+      },
       "components": [
-        { "type": "box", "size": [0.6, 2, 0.6], "position": [-1.2, -0.5, 0], "color": "#10b981" },
-        { "type": "box", "size": [0.6, 3.5, 0.6], "position": [0, 0.25, 0], "color": "#3b82f6" },
-        { "type": "box", "size": [0.6, 5, 0.6], "position": [1.2, 1, 0], "color": "#f59e0b" }
+        {
+          "type": "bar",
+          "size": [0.8, 2.0, 0.8],
+          "position": [-2.2, 0, 0],
+          "color": "#10b981",
+          "label": "Q1",
+          "value": 40,
+          "maxValue": 100,
+          "animation": {
+            "type": "bar_grow",
+            "delay": 0,
+            "duration": 1.5
+          }
+        },
+        {
+          "type": "bar",
+          "size": [0.8, 3.5, 0.8],
+          "position": [-0.73, 0.75, 0],
+          "color": "#3b82f6",
+          "label": "Q2",
+          "value": 55,
+          "maxValue": 100,
+          "animation": {
+            "type": "bar_grow",
+            "delay": 0.5,
+            "duration": 1.5
+          }
+        },
+        {
+          "type": "bar",
+          "size": [0.8, 5.0, 0.8],
+          "position": [0.73, 1.5, 0],
+          "color": "#f59e0b",
+          "label": "Q3",
+          "value": 75,
+          "maxValue": 100,
+          "animation": {
+            "type": "bar_grow",
+            "delay": 1.0,
+            "duration": 1.5
+          }
+        },
+        {
+          "type": "bar",
+          "size": [0.8, 6.0, 0.8],
+          "position": [2.2, 2.0, 0],
+          "color": "#ef4444",
+          "label": "Q4",
+          "value": 90,
+          "maxValue": 100,
+          "animation": {
+            "type": "bar_grow",
+            "delay": 1.5,
+            "duration": 1.5
+          }
+        },
+        {
+          "type": "axis_label",
+          "position": [0, -1.8, 0],
+          "text": "季度产值 (万元)",
+          "color": "#475569"
+        },
+        {
+          "type": "axis_label",
+          "position": [-3.0, 2.5, 0],
+          "text": "产值",
+          "color": "#475569",
+          "rotation": [0, 0, -90]
+        },
+        {
+          "type": "axis_label",
+          "position": [-3.0, 0, 0],
+          "text": "0",
+          "color": "#94a3b8"
+        },
+        {
+          "type": "axis_label",
+          "position": [-3.0, 2.0, 0],
+          "text": "50",
+          "color": "#94a3b8"
+        },
+        {
+          "type": "axis_label",
+          "position": [-3.0, 4.0, 0],
+          "text": "100",
+          "color": "#94a3b8"
+        }
       ]
     }
   }
