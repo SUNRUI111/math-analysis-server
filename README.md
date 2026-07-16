@@ -34,5 +34,6 @@ math-diagnosis-server/
 └── README.md
 
 cd /Users/rui/Documents/课程/第二学期/12、其他学习资料/math_analysis_uniapp
+git add .
 git commit -m "更新后台三维试题逻辑"
 git push

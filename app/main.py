@@ -186,10 +186,6 @@ async def diagnose_stream(req: DiagnoseRequest):
         "1. 严禁使用任何铺垫型废话。禁止说“你这个问题问得好”、“算得对”、“太棒了”、“来我们一起想想”等毫无意义的夸奖和客套话。\n"
         "2. 直奔主题：直接针对学生的回答进行反问、追问或指出矛盾。每轮发言绝不能超过 2 句话，总字数严格控制在 60 字以内。\n"
         "3. 严禁直接给出题目答案或解题步骤，继续保持苏格拉底式追问。\n\n"
-        "【数据高亮规范】\n"
-        "为了帮学生区分“量（带单位）”与“率（不带单位）”，你必须对文本中出现的数字应用以下 Markdown 颜色样式：\n"
-        "- 对于【带单位的具体数量】（如 2/3米、2/9米），必须使用绿色高亮，格式为：<span style='color: #2ecc71; font-weight: bold;'>2/3米</span>\n"
-        "- 对于【不带单位的分率/比例】（如 1/3、1/4），必须使用橙色高亮，格式为：<span style='color: #e67e22; font-weight: bold;'>1/3</span>\n\n"
         "【量化诊断与暗号触发标准（严格遵循）】\n"
         "你必须通过以下三个量化梯级来判断学生的掌握情况，并在满足条件时在发言最后一行单独输出判定暗号：\n\n"
         "1. [STATUS_CHANGE]:green (彻底掌握) 触发硬性标准：\n"
@@ -228,6 +224,7 @@ async def diagnose_stream(req: DiagnoseRequest):
             async for chunk in response:
                 content = chunk.choices[0].delta.content
                 if content:
+                    print(f"=====返回数据=={content}\n\n")
                     yield f"data: {content}\n\n"
         except Exception as e:
             yield f"data: [错误] 诊断引擎通信异常: {str(e)}\n\n"
